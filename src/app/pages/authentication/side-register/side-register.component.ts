@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { MaterialModule } from 'src/app/material.module';
-
+import { User } from 'src/app/models/user.model';
 @Component({
   selector: 'app-side-register',
   imports: [RouterModule, MaterialModule, FormsModule, ReactiveFormsModule],
@@ -14,6 +14,7 @@ import { MaterialModule } from 'src/app/material.module';
 export class AppSideRegisterComponent {
   options = this.settings.getOptions();
 
+  nombre:string = "Simon";
   constructor(private settings: CoreService, private router: Router) {}
 
   form = new FormGroup({
@@ -26,8 +27,14 @@ export class AppSideRegisterComponent {
     return this.form.controls;
   }
 
-  submit() {
-    // console.log(this.form.value);
-    this.router.navigate(['/']);
+  addUser() {
+    if(this.form.invalid) return;
+
+    const user: User = {
+      nombre: this.form.value.uname!,
+      email: this.form.value.email!,
+      password: this.form.value.password!,
+      estado: "Activo"
+    }
   }
 }
