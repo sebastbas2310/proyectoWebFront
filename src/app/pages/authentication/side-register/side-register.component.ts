@@ -6,6 +6,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { MaterialModule } from 'src/app/material.module';
 import { User } from 'src/app/models/user.model';
+import { UserService } from 'src/app/services/user/user.service';
 @Component({
   selector: 'app-side-register',
   imports: [RouterModule, MaterialModule, FormsModule, ReactiveFormsModule],
@@ -15,7 +16,7 @@ export class AppSideRegisterComponent {
   options = this.settings.getOptions();
 
   nombre:string = "Simon";
-  constructor(private settings: CoreService, private router: Router) {}
+  constructor(private settings: CoreService, private router: Router, private userService: UserService) {}
 
   form = new FormGroup({
     uname: new FormControl('', [Validators.required, Validators.minLength(6)]),
@@ -36,5 +37,19 @@ export class AppSideRegisterComponent {
       password: this.form.value.password!,
       estado: "Activo"
     }
+
+    this.userService.addUser(user).subscribe({
+      next:(res)=>{
+        console.log(res);
+        debugger;
+        console.log(res.id)
+        alert("Usuario registrado correctamente")
+        this.router.navigate(['/authentication/login']);
+      },
+      error:(err)=>{
+        console.log(err);
+        alert("Error al registrar el usuario")
+      }
+    })
   }
 }
