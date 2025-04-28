@@ -1,0 +1,50 @@
+<mat-card class="" cardWithShadow>
+    <mat-card-content>
+      <div class="d-flex">
+        <div class="m-r-auto m-b-8">
+          <mat-card-title>Usuarios</mat-card-title>
+          <mat-card-subtitle>Listado</mat-card-subtitle>
+        </div>
+        <div>
+          <button mat-flat-button color="primary" class="m-r-8">Crear nuevo usuario</button>
+        </div>
+      </div>
+      <hr>
+  
+      <div *ngIf="workerList.length > 0; else noWorkers" class="table-responsive">
+        <table class="w-100">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th class="f-w-t600 f-s-14">Nombre</th>
+              <th class="f-w-t600 f-s-14">Email</th>
+              <th class="f-w-t600 f-s-14">Estado</th>
+              <th class="f-w-t600 f-s-14">Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let worker of workerList" class="f-s-14">
+              <td>{{ worker.worker_id }}</td>
+              <td>{{ worker.worker_name }}</td>
+              <td>{{ worker.email }}</td>
+              <td>Activo</td>
+              <td>
+                <button mat-button color="primary">Editar</button>
+                <button mat-button color="warn">Eliminar</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+  
+      <!-- Template para cuando no hay trabajadores -->
+      <ng-template #noWorkers>
+        <div class="text-center p-4">
+          <h2>No hay trabajadores registrados 😢</h2>
+          <p>¡Agrega nuevos trabajadores para verlos aquí!</p>
+        </div>
+      </ng-template>
+      
+    </mat-card-content>
+  </mat-card>
+  

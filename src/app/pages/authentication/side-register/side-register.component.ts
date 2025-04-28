@@ -1,12 +1,12 @@
-import { Component } from '@angular/core';
+/*import { Component } from '@angular/core';
 import { CoreService } from 'src/app/services/core.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { MaterialModule } from 'src/app/material.module';
-import { User } from 'src/app/models/user.model';
-import { UserService } from 'src/app/services/user/user.service';
+//import { User } from 'src/app/models/workers.model';
+//import { UserService } from 'src/app/services/user/user.service';
 @Component({
   selector: 'app-side-register',
   imports: [RouterModule, MaterialModule, FormsModule, ReactiveFormsModule],
@@ -31,14 +31,14 @@ export class AppSideRegisterComponent {
   addUser() {
     if(this.form.invalid) return;
 
-    const user: User = {
+  /*  const user: User = {
       nombre: this.form.value.uname!,
       email: this.form.value.email!,
       password: this.form.value.password!,
       estado: "Activo"
-    }
+    }*/
 
-    this.userService.addUser(user).subscribe({
+   /* this.userService.addUser(user).subscribe({
       next:(res)=>{
         console.log(res);
         debugger;
@@ -52,4 +52,4 @@ export class AppSideRegisterComponent {
       }
     })
   }
-}
+}*/

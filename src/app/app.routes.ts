@@ -18,6 +18,11 @@ export const routes: Routes = [
           import('./pages/pages.routes').then((m) => m.PagesRoutes),
       },
       {
+        path: 'workers',
+        loadChildren: () =>
+          import('./pages/workers/workers.routes').then((m) => m.TrabajadoresRoutes),
+      },
+      {
         path: 'ui-components',
         loadChildren: () =>
           import('./pages/ui-components/ui-components.routes').then(

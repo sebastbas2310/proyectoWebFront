@@ -1,48 +1,31 @@
-import { Component } from '@angular/core';
+/*import { Component } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatListModule } from '@angular/material/list';
-import {MatIconModule} from '@angular/material/icon';
-import {DatePipe} from '@angular/common';
+import { MatIconModule } from '@angular/material/icon';
 import { MaterialModule } from 'src/app/material.module';
-
-
-export interface Section {
-  name: string;
-  updated: Date;
-}
+import { TrabajadoresService } from '../../../services/trabajadores/trabajadores.service';
 
 @Component({
   selector: 'app-lists',
-  imports: [MatListModule, MatCardModule, DatePipe,MatIconModule, MaterialModule ],
+  standalone: true,
+  imports: [MatListModule, MatCardModule, MatIconModule, MaterialModule],
   templateUrl: './lists.component.html',
 })
 export class AppListsComponent {
-  constructor() {}
+  trabajadores: any[] = [];
 
-  typesOfShoes: string[] = ['Loafers', 'Sneakers'];
+  constructor(private servicioTrabajador: TrabajadoresService) {}
 
-  folders: Section[] = [
-    {
-      name: 'Photos',
-      updated: new Date('1/1/25'),
-    },
-    {
-      name: 'Recipes',
-      updated: new Date('1/17/25'),
-    },
-    {
-      name: 'Work',
-      updated: new Date('1/28/25'),
-    },
-  ];
-  notes: Section[] = [
-    {
-      name: 'Vacation Itinerary',
-      updated: new Date('2/20/25'),
-    },
-    {
-      name: 'Kitchen Remodel',
-      updated: new Date('1/18/25'),
-    },
-  ];
+  ngOnInit() {
+    this.servicioTrabajador.ConsultarTrabajadores().subscribe({
+      next: (res) => {
+        this.trabajadores = res.body || [];
+        console.log(this.trabajadores);
+      },
+      error: (err) => {
+        console.error('Error al cargar trabajadores', err);
+      },
+    });
+  }
 }
+*/
