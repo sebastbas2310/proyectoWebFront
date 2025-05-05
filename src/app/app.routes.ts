@@ -23,16 +23,19 @@ export const routes: Routes = [
           import('./pages/workers/workers.routes').then((m) => m.TrabajadoresRoutes),
       },
       {
-        path: 'ui-components',
+        path: 'menu',
         loadChildren: () =>
-          import('./pages/ui-components/ui-components.routes').then(
-            (m) => m.UiComponentsRoutes
-          ),
+          import('./pages/menu/Menu.routes').then((m) => m.MenuRoutes),
       },
       {
-        path: 'extra',
+        path: 'ingredients',
         loadChildren: () =>
-          import('./pages/extra/extra.routes').then((m) => m.ExtraRoutes),
+          import('./pages/ingredients/ingredientsroutes').then((m) => m.ingredientsRoutes),
+      },
+      {
+        path: 'tables',
+        loadChildren: () =>
+          import('./pages/tables/table.routes').then((m) => m.tablesRoutes),
       },
     ],
   },

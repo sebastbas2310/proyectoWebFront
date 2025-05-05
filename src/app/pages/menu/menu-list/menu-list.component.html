@@ -1,0 +1,19 @@
+<div *ngFor="let category of menu | keyvalue" class="menu-category">
+  <h1>{{ category.key | titlecase }}</h1>
+  <div class="card-container">
+    <div *ngFor="let card of category.value" class="card">
+      <div class="warning-icon">
+        ⚠️ <!-- Puedes reemplazar esto con un ícono o imagen -->
+      </div>
+      <img [src]="card.imageUrl" alt="Imagen de {{ card.title }}" class="card-image">
+      <div class="card-info">
+        <h2>{{ card.title }}</h2>
+        <p>{{ card.description }}</p>
+      </div>
+      <div class="card-buttons">
+        <button class="btn btn-view-more">Ver más</button>
+        <button class="btn btn-buy">Buy</button>
+      </div>
+    </div>
+  </div>
+</div>

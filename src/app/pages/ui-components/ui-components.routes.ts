@@ -1,10 +1,10 @@
-import { Routes } from '@angular/router';
+/*import { Routes } from '@angular/router';
 
 // ui
 import { AppBadgeComponent } from './badge/badge.component';
 import { AppChipsComponent } from './chips/chips.component';
 //import { AppListsComponent } from './lists/lists.component';
-import { AppMenuComponent } from './menu/menu.component';
+import { AppMenuComponent } from '../menu/Menu.routes
 import { AppTooltipsComponent } from './tooltips/tooltips.component';
 import { AppFormsComponent } from './forms/forms.component';
 import { AppTablesComponent } from './tables/tables.component';
@@ -24,7 +24,7 @@ export const UiComponentsRoutes: Routes = [
      /* {
         path: 'lists',
         component: AppListsComponent,
-      },*/
+      },
       {
         path: 'menu',
         component: AppMenuComponent,
@@ -44,3 +44,4 @@ export const UiComponentsRoutes: Routes = [
     ],
   },
 ];
+*/

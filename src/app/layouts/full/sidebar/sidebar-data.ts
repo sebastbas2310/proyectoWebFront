@@ -11,22 +11,22 @@ export const navItems: NavItem[] = [
   },
   {
     displayName: 'Workers',
-    iconName: 'people',
+    iconName: 'layout-grid-add',
     route: '/workers',
   },
   {
     displayName: 'Menu',
     iconName: 'people',
-    route: '/trabajadores',
+    route: '/menu',
   },
   {
     displayName: 'ingredientes',
     iconName: 'people',
-    route: '/trabajadores',
+    route: '/ingredients',
   },
   {
     displayName: 'Tables',
     iconName: 'people',
-    route: '/trabajadores',
+    route: '/tables',
   },
 ]
