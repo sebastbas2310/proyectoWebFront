@@ -1,19 +1,19 @@
-<div *ngFor="let category of menu | keyvalue" class="menu-category">
-  <h1>{{ category.key | titlecase }}</h1>
-  <div class="card-container">
-    <div *ngFor="let card of category.value" class="card">
-      <div class="warning-icon">
-        ⚠️ <!-- Puedes reemplazar esto con un ícono o imagen -->
-      </div>
-      <img [src]="card.imageUrl" alt="Imagen de {{ card.title }}" class="card-image">
-      <div class="card-info">
-        <h2>{{ card.title }}</h2>
-        <p>{{ card.description }}</p>
-      </div>
-      <div class="card-buttons">
-        <button class="btn btn-view-more">Ver más</button>
-        <button class="btn btn-buy">Buy</button>
-      </div>
+<div class="card-container">
+  <div *ngFor="let plate of menuList" class="card">
+    <div class="warning-icon">
+      ⚠️ 
+    </div>
+    <img [src]="plate.plate_img" alt="Imagen de " class="card-image">
+    <div class="card-info">
+      <h2>{{ plate.plate_name }}</h2>
+      <p>{{ plate.plate_desc }}</p>
+      <p><strong>Precio:</strong> ${{ plate.price }}</p>
+    </div>
+    <div class="card-buttons">
+      <button class="btn btn-view-more">Ver más</button>
+      <button class="btn btn-buy">Comprar</button>
     </div>
   </div>
 </div>
+
+

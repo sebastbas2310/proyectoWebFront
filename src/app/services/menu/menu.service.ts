@@ -8,7 +8,7 @@ import { Menu } from 'src/app/models/Menu.model';
 })
 export class  MenuService {
 
-  private servidor = 'http://localhost:3000/worker';
+  private servidor = 'http://localhost:3000/menu';
 
   constructor(private http: HttpClient) { }
 

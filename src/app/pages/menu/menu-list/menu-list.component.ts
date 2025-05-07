@@ -1,13 +1,12 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { MaterialModule } from 'src/app/material.module';
 import { Menu } from 'src/app/models/Menu.model';
 import { MenuService } from 'src/app/services/menu/menu.service';
 
 @Component({
   selector: 'app-menu-list',
-  imports: [
-    CommonModule
-  ],
+  imports: [MaterialModule, CommonModule],
   templateUrl: './menu-list.component.html',
   styleUrls: ['./menu-list.component.scss']
 })
@@ -28,6 +27,7 @@ export class MenuListComponent {
         {
           next: (res) =>{
             this.menuList = res;
+            console.log(this.menuList);
           },
           error: (err)=>{
             if(err.status === 403){

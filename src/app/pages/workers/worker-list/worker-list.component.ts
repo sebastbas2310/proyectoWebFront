@@ -26,6 +26,7 @@ export class WorkerListComponent {
       {
         next: (res) =>{
           this.workerList = res;
+          console.log(this.workerList);
         },
         error: (err)=>{
           if(err.status === 403){
