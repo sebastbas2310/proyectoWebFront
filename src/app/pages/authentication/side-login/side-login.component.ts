@@ -7,6 +7,7 @@ import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { AuthService } from 'src/app/services/auth/auth.service';
+import Swal from 'sweetalert2'
 
 @Component({
   selector: 'app-side-login',
@@ -27,6 +28,7 @@ export class AppSideLoginComponent {
   }
 
   submit() {
+    console.log(this.form.value);
     const { uname, password } = this.form.value;
     this.authService.authenticate(uname || '', password || '').subscribe({
       next:(res)=>{
@@ -34,8 +36,13 @@ export class AppSideLoginComponent {
         this.router.navigate(['/']);
       }, 
       error:(err)=>{
+        Swal.fire({
+          title: 'Error!',
+          text: 'Error al iniciar sesión verifica tus credenciales',
+          icon: 'error',
+          confirmButtonText: 'Cool' 
+        })
         console.log(err);
-        alert("Error al iniciar sesión")
       }
 
     })

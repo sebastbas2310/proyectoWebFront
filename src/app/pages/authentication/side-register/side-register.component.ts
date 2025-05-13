@@ -5,8 +5,8 @@ import { Router } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { MaterialModule } from 'src/app/material.module';
-//import { User } from 'src/app/models/workers.model';
-//import { UserService } from 'src/app/services/user/user.service';
+import { Workers } from '../../../models/workers.model';
+import { WorkerService } from '../../../services/workers/worker.service';
 @Component({
   selector: 'app-side-register',
   imports: [RouterModule, MaterialModule, FormsModule, ReactiveFormsModule],
@@ -16,7 +16,7 @@ export class AppSideRegisterComponent {
   options = this.settings.getOptions();
 
   nombre:string = "Simon";
-  constructor(private settings: CoreService, private router: Router, private userService: UserService) {}
+  constructor(private settings: CoreService, private router: Router, private workerService: WorkerService) {}
 
   form = new FormGroup({
     uname: new FormControl('', [Validators.required, Validators.minLength(6)]),
@@ -31,14 +31,14 @@ export class AppSideRegisterComponent {
   addUser() {
     if(this.form.invalid) return;
 
-  /*  const user: User = {
-      nombre: this.form.value.uname!,
+    const worker: Workers = {
+      worker_name: this.form.value.uname!,
       email: this.form.value.email!,
       password: this.form.value.password!,
       estado: "Activo"
-    }*/
+    }
 
-   /* this.userService.addUser(user).subscribe({
+    this.userService.addUser(user).subscribe({
       next:(res)=>{
         console.log(res);
         debugger;

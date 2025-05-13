@@ -13,7 +13,7 @@ export class ingredientsService {
   
     constructor(private http: HttpClient) { }
   
-    getIngredients(): Observable<Ingredient[]>{
+    getIngredients(): Observable<Ingredient[]>{ 
       const endpoint = this.servidor;
       const headers = {
         'Content-Type':"application/json",
@@ -21,10 +21,12 @@ export class ingredientsService {
       }
       return this.http.get<Ingredient[]>(endpoint,{headers});
     }
-  
-    addingredients(ingredients: Ingredient): Observable<any>{
-      const endpoint = `${this.servidor}/addWorker`;
-      return this.http.post(endpoint, ingredients);
-    }
+
+   updateIngredients( ingredients: Ingredient): Observable<any>{
+    const endpoint = `${this.servidor}/updateIngredient/${ingredients.ingredient_id}`;
+    return this.http.put(endpoint, ingredients);
+  }
+      
+
 
 }
