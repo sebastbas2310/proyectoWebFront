@@ -23,8 +23,13 @@ export class TableService {
     }
   
     addTable(table: Table): Observable<any>{
-      const endpoint = `${this.servidor}/addWorker`;
+      const endpoint = `${this.servidor}/add`;
       return this.http.post(endpoint, table);
     }
+
+    updateTableStatus( table: Table): Observable<any>{
+        const endpoint = `${this.servidor}/updateTable/${table.table_id}`;
+        return this.http.put(endpoint, table);
+      }
 
 }

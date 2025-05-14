@@ -6,6 +6,7 @@ import { MaterialModule } from 'src/app/material.module';
 import { Workers } from 'src/app/models/workers.model';
 import { AlertService } from 'src/app/services/alert/alert.service';
 import { WorkerService } from 'src/app/services/workers/worker.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-worker-form',
@@ -88,8 +89,8 @@ export class WorkerFormComponent {
 
     const workerData: Workers = this.form.value;
 
-    const { worker_name, worker_rol, salary, email, phone_number } = workerData;
-    if (!worker_name || !worker_rol || !salary || !email || !phone_number) {
+    const { worker_name, worker_rol, salary, email, password, phone_number, worker_status } = workerData;
+    if (!worker_name || !worker_rol || !salary || !email || !password || !phone_number) {
       alert("Todos los campos son obligatorios");
       return;
     }
@@ -128,5 +129,16 @@ export class WorkerFormComponent {
       });
     }
     }});
+  }
+
+  alertaConCorfirmacion(title: string, text: string): Promise<any> {
+    return Swal.fire({
+      title,
+      text,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Sí',
+      cancelButtonText: 'No'
+    });
   }
 }
