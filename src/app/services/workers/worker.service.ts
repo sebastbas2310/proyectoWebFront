@@ -14,7 +14,7 @@ export class WorkerService {
 
    addWorker(worker: Workers): Observable<any>{
     const endpoint = `${this.servidor}/addWorker`;
-    return this.http.post(endpoint, worker);
+    return this.http.post<Workers[]>(endpoint, worker);
   }
 
   getWorkers(): Observable<Workers[]>{

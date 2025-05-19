@@ -1,3 +1,4 @@
+
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
@@ -37,7 +38,7 @@ export class AuthInterceptor implements HttpInterceptor {
             icon: 'warning',
             confirmButtonText: 'Aceptar'
           }).then(() => {
-            this.router.navigate(['/auth']);
+            this.router.navigate(['/authentication']);
           });
         }
         return throwError(() => error);

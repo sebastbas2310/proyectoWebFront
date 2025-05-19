@@ -10,14 +10,15 @@ import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-worker-form',
+  standalone: true,
   imports: [MaterialModule, ReactiveFormsModule, CommonModule],
   templateUrl: './worker-form.component.html',
   styleUrl: './worker-form.component.scss'
 })
 export class WorkerFormComponent {
   form!: FormGroup;
-  editMode: boolean = false; // Determina si estamos en modo edición
-  workerId!: string; // ID del trabajador en caso de edición
+  editMode: boolean = false;
+  workerId!: string;
 
   constructor(
     private route: ActivatedRoute,
@@ -27,7 +28,20 @@ export class WorkerFormComponent {
     private alertService: AlertService
   ) {}
 
-  // Inicializa el formulario con todos los campos del modelo Workers
+  ngOnInit(): void {
+    this.initForm();
+    this.route.paramMap.subscribe(params => {
+      const id = params.get('id');
+      if (id) {
+        this.workerId = id;
+        this.editMode = true;
+        this.getWorkerById(id);
+      } else {
+        this.editMode = false;
+      }
+    });
+  }
+
   initForm(): void {
     this.form = this.fb.group({
       worker_name: ['', Validators.required],
@@ -36,27 +50,10 @@ export class WorkerFormComponent {
       worker_rol: ['', Validators.required],
       salary: [0, [Validators.required, Validators.min(0)]],
       password: ['', Validators.required],
-      phone_number: ['', Validators.required]
+      phone_number: ['', [Validators.required]]
     });
   }
 
-  ngOnInit(): void {
-    this.initForm();
-
-    // Verifica si hay un ID en la URL para determinar si es edición o creación
-    this.route.paramMap.subscribe(params => {
-      const id = params.get('id');
-      if (id) {
-        this.workerId = id;
-        this.editMode = true; // Modo edición
-        this.getWorkerById(id);
-      } else {
-        this.editMode = false; // Modo creación
-      }
-    });
-  }
-
-  // Obtiene los datos de un trabajador por su ID y los carga en el formulario
   getWorkerById(id: string): void {
     this.workerService.getWorkerById(id).subscribe({
       next: (worker: Workers) => {
@@ -71,64 +68,64 @@ export class WorkerFormComponent {
         });
       },
       error: () => {
-        console.log("Error al obtener los datos del trabajador.");
+        Swal.fire({
+          icon: 'error',
+          title: 'Error al obtener el trabajador',
+          text: 'No se pudo obtener la información del trabajador.'
+        });
       }
     });
   }
 
-  // Guarda la información del trabajador (creación o edición)
   guardarWorkerInfo(): void {
     this.alertService.alertaConCorfirmacion("¿Está seguro de guardar los cambios?", "Esta acción no se puede deshacer").then(result => {
-    if (!result.isConfirmed) {}
-    else if (result.isConfirmed) {
-    if (this.form.invalid) {
-      this.form.markAllAsTouched();
-      alert("Hubo un error al mapear los datos");
-      return;
-    }
+      if (!result.isConfirmed) return;
 
-    const workerData: Workers = this.form.value;
+      if (this.form.invalid) {
+        this.form.markAllAsTouched();
+        Swal.fire({
+          icon: 'error',
+          title: 'Formulario inválido',
+          text: 'Revisa que todos los campos estén correctamente completados.'
+        });
+        return;
+      }
 
-    const { worker_name, worker_rol, salary, email, password, phone_number, worker_status } = workerData;
-    if (!worker_name || !worker_rol || !salary || !email || !password || !phone_number) {
-      alert("Todos los campos son obligatorios");
-      return;
-    }
+      const workerData: Workers = this.form.value;
 
-    // Imprime los datos enviados al backend
-    console.log("Datos enviados al backend:", workerData);
+      // Validación adicional para número telefónico
+      if (workerData.phone_number.length < 10 || workerData.phone_number.length > 15) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Teléfono inválido',
+          text: 'El número telefónico debe tener entre 10 y 15 caracteres.'
+        });
+        return;
+      }
 
-    if (this.editMode && this.workerId) {
-      // Actualiza un trabajador existente
-      this.workerService.updateWorker(this.workerId, workerData).subscribe({
+      const peticion = this.editMode && this.workerId
+        ? this.workerService.updateWorker(this.workerId, workerData)
+        : this.workerService.addWorker(workerData);
+
+      peticion.subscribe({
         next: () => {
-          this.alertService.AlertaCuandoMelo("Excelente", "El trabajador ha sido modificado correctamente").then(result => {
+          const mensaje = this.editMode ? "modificado" : "creado";
+          this.alertService.AlertaCuandoMelo("Excelente", `El trabajador ha sido ${mensaje} correctamente`).then(result => {
             if (result.isConfirmed) {
-              
-              this.router.navigate(['/workers/list']);
+              this.router.navigate(['/workers']);
             }
           });
         },
-        error: () => {
-          console.log("Error al actualizar el trabajador.");
-        }
-      });
-    } else {
-      // Crea un nuevo trabajador
-      this.workerService.addWorker(workerData).subscribe({
-        next: () => {
-          this.alertService.AlertaCuandoMelo("Excelente", "El trabajador ha sido creado correctamente").then(result => {
-            if (result.isConfirmed) {
-              this.router.navigate(["/workers/list"]);
-            }
+        error: (error) => {
+          const errores = error?.error?.messages || [error?.error?.error || 'Error desconocido'];
+          Swal.fire({
+            icon: 'error',
+            title: 'Error del servidor',
+            html: `<ul style="text-align: left;">${errores.map((e: string) => `<li>${e}</li>`).join('')}</ul>`
           });
-        },
-        error: () => {
-          console.log("Error al crear el trabajador.");
         }
       });
-    }
-    }});
+    });
   }
 
   alertaConCorfirmacion(title: string, text: string): Promise<any> {

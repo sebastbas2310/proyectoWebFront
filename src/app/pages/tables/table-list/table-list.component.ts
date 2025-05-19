@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { MaterialModule } from 'src/app/material.module';
-import { Component} from '@angular/core';
+import { Component } from '@angular/core';
 import Swal from 'sweetalert2';
 import { Table } from 'src/app/models/tables.model';
 import { TableService } from 'src/app/services/table/table.service';
@@ -8,7 +8,7 @@ import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-table-list',
-   imports: [MaterialModule, CommonModule],
+  imports: [MaterialModule, CommonModule],
   templateUrl: './table-list.component.html',
   styleUrls: ['./table-list.component.scss']
 })
@@ -39,16 +39,15 @@ export class TableListComponent {
     let timeLeft = 0;
 
     if (!table.table_disp) {
-      // Calcula el tiempo restante si la mesa está ocupada
-      const reservationEndTime = Date.now() + 3600000; // Simula el tiempo restante
+      const reservationEndTime = Date.now() + 3600000; // Simula 1 hora restante
       timeLeft = reservationEndTime - Date.now();
     }
 
     const interval = setInterval(() => {
       if (timeLeft <= 0) {
-        clearInterval(interval); // Detener el temporizador cuando expire
+        clearInterval(interval);
       } else {
-        timeLeft -= 1000; // Reducir el tiempo restante
+        timeLeft -= 1000;
       }
     }, 1000);
 
@@ -66,7 +65,7 @@ export class TableListComponent {
       `,
       confirmButtonText: 'Cerrar'
     }).then(() => {
-      clearInterval(interval); // Detener el temporizador cuando se cierre el popup
+      clearInterval(interval);
     });
   }
 
@@ -90,9 +89,8 @@ export class TableListComponent {
       cancelButtonText: 'Cancelar'
     }).then((result) => {
       if (result.isConfirmed) {
-        table.table_disp = false; // Cambia el estado a "Ocupada"
+        table.table_disp = false;
 
-        // Actualiza el estado de la mesa en la base de datos
         this.tableService.updateTableStatus(table).subscribe({
           next: () => {
             Swal.fire({
@@ -102,11 +100,9 @@ export class TableListComponent {
               confirmButtonText: 'Cerrar'
             });
 
-            // Temporizador para liberar la mesa después de 1 hora (3600000 ms)
             setTimeout(() => {
-              table.table_disp = true; // Cambia el estado a "Desocupada"
+              table.table_disp = true;
 
-              // Actualiza el estado de la mesa en la base de datos nuevamente
               this.tableService.updateTableStatus(table).subscribe({
                 next: () => {
                   Swal.fire({
@@ -125,7 +121,7 @@ export class TableListComponent {
                   });
                 }
               });
-            }, 3600000); // 1 hora en milisegundos
+            }, 3600000); // 1 hora
           },
           error: () => {
             Swal.fire({
@@ -139,6 +135,69 @@ export class TableListComponent {
       }
     });
   }
-}
 
-export class AppModule { }
+  createNewTable(): void {
+    Swal.fire({
+      title: 'Crear nueva mesa',
+      input: 'number',
+      inputLabel: 'Indica el tamaño de la mesa',
+      inputAttributes: {
+        min: '1',
+        step: '1'
+      },
+      inputValidator: (value) => {
+        if (!value) {
+          return 'Por favor ingresa un tamaño válido (mayor que 0)';
+        }
+        return null;
+      },
+      showCancelButton: true,
+      confirmButtonText: 'Crear',
+      cancelButtonText: 'Cancelar'
+    }).then((result) => {
+      if (result.isConfirmed && result.value) {
+        const newTableSize = Number(result.value);
+
+        const newTable: Table = {
+          table_id: '',
+          table_size: newTableSize,
+          table_disp: true
+        };
+
+        this.tableService.addTable(newTable).subscribe({
+          next: () => {
+            Swal.fire('Mesa creada', 'La nueva mesa ha sido creada correctamente.', 'success');
+            this.getTable();
+          },
+          error: () => {
+            Swal.fire('Error', 'No se pudo crear la mesa. Inténtalo de nuevo.', 'error');
+          }
+        });
+      }
+    });
+  }
+
+  // NUEVO MÉTODO: Eliminar una mesa
+  deleteTable(table: Table): void {
+    Swal.fire({
+      title: '¿Eliminar mesa?',
+      text: `¿Estás seguro de eliminar la mesa con ID ${table.table_id}?`,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Sí, eliminar',
+      cancelButtonText: 'Cancelar'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.tableService.deleteTable(table.table_id!).subscribe({
+          next: () => {
+            Swal.fire('Eliminada', 'La mesa fue eliminada correctamente.', 'success');
+            this.getTable();
+          },
+          error: () => {
+            Swal.fire('Error', 'No se pudo eliminar la mesa.', 'error');
+          }
+        });
+      }
+    });
+  }
+}

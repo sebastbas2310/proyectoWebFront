@@ -27,7 +27,7 @@ export class AppSideLoginComponent {
     return this.form.controls;
   }
 
-  submit() {
+  submit() {  
     console.log(this.form.value);
     const { uname, password } = this.form.value;
     this.authService.authenticate(uname || '', password || '').subscribe({

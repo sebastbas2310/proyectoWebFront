@@ -7,7 +7,7 @@ import {
 } from '@angular/core';
 import { TablerIconsModule } from 'angular-tabler-icons';
 import { MaterialModule } from 'src/app/material.module';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { NgScrollbarModule } from 'ngx-scrollbar';
 
@@ -27,4 +27,11 @@ export class HeaderComponent {
   @Input() showToggle = true;
   @Input() toggleChecked = false;
   @Output() toggleMobileNav = new EventEmitter<void>();
+
+  constructor(private router: Router) {}
+
+  logout(): void {
+    localStorage.removeItem('AuthToken');
+    this.router.navigate(['/authentication']); // o la ruta que uses para login
+  }
 }

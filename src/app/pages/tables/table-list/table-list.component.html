@@ -6,7 +6,7 @@
         <mat-card-subtitle>Listado</mat-card-subtitle>
       </div>
       <div>
-        <button mat-flat-button color="primary" class="m-r-8">
+        <button mat-flat-button color="primary" class="m-r-8" (click)="createNewTable()">
           Crear nueva mesa
         </button>
       </div>
@@ -28,14 +28,13 @@
             <td>{{ table.table_id }}</td>
             <td>{{ table.table_size }}</td>
             <td>
-              <!-- Estado con color dinámico -->
               <span 
                 [ngClass]="{
-                  'text-success': table.table_disp=== true,
-                  'text-danger': table.table_disp === false,
+                  'text-success': table.table_disp === true,
+                  'text-danger': table.table_disp === false
                 }"
               >
-                {{ table.table_disp }}
+                {{ table.table_disp ? 'Desocupada' : 'Ocupada' }}
               </span>
             </td>
             <td>
@@ -44,10 +43,17 @@
                 <mat-icon>info</mat-icon>
                 <span>Más</span>
               </button>
+
               <!-- Botón para reservar una mesa -->
               <button mat-menu-item (click)="reserveTable(table)">
                 <mat-icon>event_seat</mat-icon>
                 <span>Reservar</span>
+              </button>
+
+              <!-- Botón para eliminar mesa -->
+              <button mat-menu-item color="warn" (click)="deleteTable(table)">
+                <mat-icon>delete</mat-icon>
+                <span>Eliminar</span>
               </button>
             </td>
           </tr>
@@ -55,7 +61,6 @@
       </table>
     </div>
 
-    <!-- Template para cuando no hay mesas -->
     <ng-template #noTables>
       <div class="text-center p-4">
         <h2>No hay mesas registradas 😢</h2>

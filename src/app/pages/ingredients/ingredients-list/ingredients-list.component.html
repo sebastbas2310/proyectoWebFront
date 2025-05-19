@@ -3,6 +3,13 @@
     <mat-card-title class="m-b-0">Lista de Ingredientes</mat-card-title>
   </mat-card-header>
   <mat-card-content class="b-t-1">
+    <!-- Botón para crear nuevo ingrediente arriba -->
+    <div class="mb-3">
+      <button mat-flat-button color="primary" (click)="crearIngrediente()">
+        Crear nuevo ingrediente
+      </button>
+    </div>
+
     <div *ngIf="ingredientsList.length > 0; else noIngredients" class="table-responsive">
       <table class="w-100">
         <thead>
@@ -39,11 +46,24 @@
               />
             </td>
 
-            <!-- Botón para subir la información -->
+            <!-- Botones para acciones -->
             <td>
+              <!-- Botón para aumentar cantidad -->
               <button mat-button color="primary" class="btn-increase" (click)="updateQuantity(ingredient)">
                 <mat-icon>add</mat-icon>
                 <span>Subir</span>
+              </button>
+
+              <!-- Botón para ver info -->
+              <button mat-button color="accent" class="btn-info" (click)="verInfoIngrediente(ingredient)">
+                <mat-icon>info</mat-icon>
+                <span>Ver info</span>
+              </button>
+
+              <!-- Botón para eliminar ingrediente -->
+              <button mat-button color="warn" class="btn-delete" (click)="confirmDeleteIngredient(ingredient)">
+                <mat-icon>delete</mat-icon>
+                <span>Eliminar</span>
               </button>
             </td>
           </tr>
