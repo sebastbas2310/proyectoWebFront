@@ -61,13 +61,22 @@
                 Forgot Password?
               </a>
             </div>
-          
+
+            <!-- reCAPTCHA -->
+            <div class="m-b-12">
+              <re-captcha
+                siteKey="6Le0DEMrAAAAADCwBHHYdoK1tBv0Q4jw45dnKdl5"
+                (resolved)="onCaptchaResolved($event)">
+              </re-captcha>
+            </div>
+
             <!-- Submit button -->
             <button mat-flat-button color="primary" class="w-100" (click)="submit()" [disabled]="form.invalid">
               Sign In
             </button>
           </form>
-            <!-- input -->
+
+          <!-- input -->
           <span class="d-block f-w-500 text-center m-t-24">New?
             <a [routerLink]="['/authentication/register']" class="text-decoration-none text-primary f-w-500 f-s-14">
               Create an account</a>
